@@ -1,23 +1,25 @@
+import type { LocStr } from "../i18n/dict";
+
 export type SkillGroup = {
-  label: string;
+  label: LocStr;
   items: string[];
 };
 
 export const skillGroups: SkillGroup[] = [
   {
-    label: "Front-end",
+    label: { fr: "Front-end", en: "Front-end" },
     items: ["React", "TypeScript", "Next.js", "Vue.js", "Tailwind CSS", "Sass"],
   },
   {
-    label: "Back-end",
-    items: ["NestJS", "Spring Boot", "Java", "Go", "Python", "Flask", "Django", "PHP", "Symfony"],
+    label: { fr: "Back-end", en: "Back-end" },
+    items: ["NestJS", "Spring Boot", "Java", "Go", "Python", "Flask", "Django", "PHP"],
   },
   {
-    label: "Data & Infra",
+    label: { fr: "Data & Infra", en: "Data & Infra" },
     items: ["PostgreSQL", "MySQL", "Oracle", "Kinto", "Apache Drill", "Apache Superset", "RabbitMQ"],
   },
   {
-    label: "DevOps & Tooling",
+    label: { fr: "Outils & DevOps", en: "Tools & DevOps" },
     items: ["Docker", "Kubernetes", "Linux", "Git", "GitLab", "Nx", "Vitest", "JUnit", "Figma"],
   },
 ];

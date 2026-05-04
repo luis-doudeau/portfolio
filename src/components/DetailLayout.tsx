@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
+import { useLang } from "../i18n/LangProvider";
 
 type Props = {
   eyebrow: string;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 export function DetailLayout({ eyebrow, title, meta, children }: Props) {
+  const { t, d } = useLang();
+
   return (
     <article className="pt-32 sm:pt-40 pb-24">
       <div className="mx-auto max-w-4xl px-5 sm:px-8">
@@ -19,7 +22,7 @@ export function DetailLayout({ eyebrow, title, meta, children }: Props) {
           className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.18em] text-muted hover:text-ink transition-colors mb-10"
         >
           <ArrowLeft className="size-3.5" />
-          Retour à l'accueil
+          {t(d.detail.back)}
         </Link>
 
         <motion.div
@@ -32,7 +35,7 @@ export function DetailLayout({ eyebrow, title, meta, children }: Props) {
             {eyebrow}
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl leading-[1.02] tracking-tight text-balance">
+          <h1 className="font-display font-medium text-4xl sm:text-6xl leading-[1.02] tracking-tight text-balance">
             {title}
           </h1>
 

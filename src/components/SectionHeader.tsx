@@ -27,7 +27,7 @@ export function SectionHeader({ index, label, title, description }: Props) {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className="md:col-span-9"
       >
-        <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl leading-[1.02] tracking-tight text-balance">
+        <h2 className="font-display font-medium text-3xl sm:text-4xl md:text-5xl leading-[1.05] tracking-tight text-balance">
           {title}
         </h2>
         {description && (

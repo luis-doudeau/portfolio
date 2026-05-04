@@ -24,10 +24,10 @@ export function TechBadge({
 
   const base =
     variant === "dark"
-      ? "bg-paper/5 border-paper/10 text-paper/90"
+      ? "bg-white/5 border-white/10 text-white/90"
       : variant === "ghost"
-        ? "bg-transparent border-ink/10 text-ink/80"
-        : "bg-paper border-ink/10 text-ink/80";
+        ? "bg-transparent border-line text-ink/80"
+        : "bg-cream border-line text-ink/80";
 
   return (
     <span

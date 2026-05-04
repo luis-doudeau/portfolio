@@ -4,31 +4,36 @@ import { Link } from "react-router-dom";
 import { eduItems, workItems, type TimelineItem } from "../data/timeline";
 import { SectionHeader } from "../components/SectionHeader";
 import { TechBadge } from "../components/TechBadge";
+import { OrgLogo } from "../components/OrgLogo";
+import { useLang } from "../i18n/LangProvider";
 
 export function Timeline() {
+  const { t, d } = useLang();
+
   return (
-    <section id="timeline" className="py-24 sm:py-32 border-t border-ink/10 bg-cream/30">
+    <section id="timeline" className="py-24 sm:py-32 border-t border-line bg-cream">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
-          index="03 / Parcours"
-          label="Expériences & formations"
+          index="03 / Career"
+          label={t(d.timeline.label)}
           title={
             <>
-              D'un côté{" "}
-              <span className="italic font-serif text-accent">le travail</span>, de l'autre{" "}
-              <span className="italic font-serif text-accent">l'apprentissage</span>.
+              {t(d.timeline.title)}{" "}
+              <span className="text-accent">{t(d.timeline.titleAccent1)}</span>
+              {t(d.timeline.titleMid)}{" "}
+              <span className="text-accent">{t(d.timeline.titleAccent2)}</span>.
             </>
           }
         />
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
           <Column
-            title="Expérience pro"
+            title={t(d.timeline.work)}
             icon={<Briefcase className="size-4" />}
             items={workItems}
           />
           <Column
-            title="Formation"
+            title={t(d.timeline.edu)}
             icon={<GraduationCap className="size-4" />}
             items={eduItems}
           />
@@ -49,18 +54,17 @@ function Column({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-2 mb-6 pb-3 border-b border-ink/15">
-        <span className="size-7 grid place-items-center rounded-full bg-ink text-paper">
+      <div className="flex items-center gap-3 mb-6 pb-3 border-b border-line">
+        <span className="size-8 grid place-items-center rounded-full bg-ink text-paper">
           {icon}
         </span>
-        <h3 className="font-serif text-xl tracking-tight">{title}</h3>
+        <h3 className="font-display font-medium text-xl tracking-tight">{title}</h3>
         <span className="ml-auto font-mono text-xs text-muted">
           {String(items.length).padStart(2, "0")}
         </span>
       </div>
 
-      <ol className="relative space-y-3">
-        <span className="absolute left-3 top-2 bottom-2 w-px bg-ink/15" aria-hidden />
+      <ol className="space-y-3">
         {items.map((item, i) => (
           <Card key={item.slug} item={item} index={i} />
         ))}
@@ -69,74 +73,69 @@ function Column({
   );
 }
 
-function Card({
-  item,
-  index,
-}: {
-  item: TimelineItem;
-  index: number;
-}) {
+function Card({ item, index }: { item: TimelineItem; index: number }) {
+  const { t, d } = useLang();
   const isCurrent = item.endYear === "now";
+
   return (
     <motion.li
-      initial={{ opacity: 0, x: -8 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ delay: index * 0.06, duration: 0.5 }}
-      className="relative pl-10"
     >
-      <span
-        className={`absolute left-0 top-3 size-6 rounded-full border-2 grid place-items-center bg-paper z-10 transition-colors ${
-          isCurrent ? "border-accent" : "border-ink/30"
-        }`}
-      >
-        <span
-          className={`size-2 rounded-full ${
-            isCurrent ? "bg-accent animate-pulse" : "bg-ink/30"
-          }`}
-        />
-      </span>
-
       <Link
         to={`/parcours/${item.slug}`}
-        className="block group rounded-2xl border border-ink/10 bg-paper p-5 hover:border-ink/30 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all"
+        className="block group rounded-2xl border border-line bg-paper p-5 hover:border-accent/40 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] transition-all"
       >
-        <div className="flex items-start justify-between gap-3 mb-2">
-          <span
-            className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
-              isCurrent ? "text-accent" : "text-muted"
-            }`}
-          >
-            {item.period}
-          </span>
-          <ArrowUpRight className="size-4 text-muted group-hover:text-ink group-hover:rotate-45 transition-all shrink-0" />
-        </div>
+        <div className="flex items-start gap-4">
+          <OrgLogo name={item.org} size={48} />
 
-        <h4 className="font-serif text-lg sm:text-xl tracking-tight leading-snug group-hover:text-accent transition-colors">
-          {item.title}
-        </h4>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-3 mb-1.5">
+              <span
+                className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
+                  isCurrent ? "text-accent" : "text-muted"
+                }`}
+              >
+                {t(item.period)}
+                {isCurrent && (
+                  <span className="ml-2 inline-flex items-center gap-1 normal-case tracking-normal">
+                    <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+                    <span className="text-[10px]">{t(d.timeline.current)}</span>
+                  </span>
+                )}
+              </span>
+              <ArrowUpRight className="size-4 text-muted group-hover:text-accent group-hover:rotate-45 transition-all shrink-0" />
+            </div>
 
-        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-          <span className="font-medium text-ink/80">{item.org}</span>
-          {item.location && (
-            <span className="inline-flex items-center gap-1 text-muted text-xs">
-              <MapPin className="size-3" />
-              {item.location}
-            </span>
-          )}
-        </div>
+            <h4 className="font-display font-medium text-lg sm:text-xl tracking-tight leading-snug group-hover:text-accent transition-colors">
+              {t(item.title)}
+            </h4>
 
-        <p className="mt-3 text-sm text-ink/70 leading-relaxed">
-          {item.description}
-        </p>
+            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+              <span className="font-medium text-ink/85">{item.org}</span>
+              {item.location && (
+                <span className="inline-flex items-center gap-1 text-muted text-xs">
+                  <MapPin className="size-3" />
+                  {t(item.location)}
+                </span>
+              )}
+            </div>
 
-        {item.tags && item.tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {item.tags.slice(0, 4).map((t) => (
-              <TechBadge key={t} name={t} size="sm" variant="ghost" />
-            ))}
+            <p className="mt-3 text-sm text-ink/70 leading-relaxed">
+              {t(item.description)}
+            </p>
+
+            {item.tags && item.tags.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {item.tags.slice(0, 4).map((tag) => (
+                  <TechBadge key={tag} name={tag} size="sm" variant="ghost" />
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </Link>
     </motion.li>
   );

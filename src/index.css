@@ -1,45 +1,71 @@
 @import "tailwindcss";
 
-@theme {
+@variant dark (&:where(.dark, .dark *));
+
+@theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-ink: #0a0a0a;
-  --color-paper: #f5f3ee;
-  --color-cream: #ebe7df;
-  --color-accent: #ff5b1f;
-  --color-accent-soft: #ffe8db;
-  --color-muted: #6b665e;
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-cream: var(--cream);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-strong: var(--accent-strong);
+}
+
+:root,
+.dark {
+  --paper: #0a0a0e;
+  --ink: #f0eee6;
+  --cream: #14141a;
+  --line: rgba(240, 238, 230, 0.1);
+  --muted: #8b8b94;
+  --accent: #38bdf8;
+  --accent-soft: rgba(56, 189, 248, 0.12);
+  --accent-strong: #0ea5e9;
+}
+
+.light {
+  --paper: #f5f3ee;
+  --ink: #0a0a0e;
+  --cream: #ebe7df;
+  --line: rgba(10, 10, 14, 0.1);
+  --muted: #6b665e;
+  --accent: #0284c7;
+  --accent-soft: rgba(2, 132, 199, 0.1);
+  --accent-strong: #0369a1;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+  html.light {
+    color-scheme: light;
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    background: var(--paper);
+    color: var(--ink);
+    @apply font-sans antialiased;
     font-feature-settings: "ss01", "cv11";
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
-    @apply bg-ink text-paper;
+    background: var(--ink);
+    color: var(--paper);
   }
 }
 
 @layer utilities {
-  .grain {
-    position: relative;
-  }
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    mix-blend-mode: multiply;
+  .border-line {
+    border-color: var(--line);
   }
 
   .marquee {
@@ -53,5 +79,25 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(to right, var(--line) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .noise {
+    position: relative;
+  }
+  .noise::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 }

@@ -3,13 +3,26 @@ import { ArrowDownRight, ArrowRight, MapPin } from "lucide-react";
 import { profile } from "../data/profile";
 import { stackTags } from "../data/skills";
 import { TechBadge } from "../components/TechBadge";
+import { useLang } from "../i18n/LangProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
+  const { t, d } = useLang();
+
   return (
     <section id="top" className="relative pt-32 sm:pt-40 pb-20 sm:pb-28 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      {/* Decorative tech grid background */}
+      <div className="absolute inset-0 grid-bg opacity-[0.4] pointer-events-none [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]" />
+      <div
+        className="absolute -top-40 -right-40 size-[480px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -17,37 +30,39 @@ export function Hero() {
           className="flex items-center gap-3 mb-10 font-mono text-xs uppercase tracking-[0.2em] text-muted"
         >
           <span className="size-1.5 rounded-full bg-accent" />
-          Portfolio · 2026
-          <span className="hidden sm:block flex-1 h-px bg-ink/15" />
+          {t(d.hero.eyebrow)}
+          <span className="hidden sm:block flex-1 h-px bg-line" />
           <span className="hidden sm:inline-flex items-center gap-1.5">
             <MapPin className="size-3" />
-            {profile.location}
+            {t(d.hero.location)}
           </span>
         </motion.div>
 
-        <h1 className="font-serif text-[14vw] sm:text-[10vw] lg:text-[9rem] leading-[0.92] tracking-tight">
-          <Word delay={0.05}>Luis</Word>
-          <span className="inline-flex items-baseline gap-3 sm:gap-5 ml-3 sm:ml-5">
-            <Word delay={0.15} italic>
-              Doudeau
-            </Word>
+        {/* Name — both lines left-aligned */}
+        <h1 className="font-display font-medium text-[20vw] sm:text-[14vw] lg:text-[11rem] xl:text-[12rem] leading-[0.88] tracking-tight">
+          <Word delay={0.05}>{profile.firstName}</Word>
+          <br />
+          <span className="inline-flex items-baseline">
+            <Word delay={0.18}>{profile.lastName}</Word>
             <motion.span
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.55, duration: 0.5, ease }}
-              className="inline-block size-3 sm:size-5 rounded-full bg-accent translate-y-[-0.4em]"
+              transition={{ delay: 0.6, duration: 0.5, ease }}
+              className="inline-block size-3 sm:size-5 rounded-full bg-accent ml-2 sm:ml-3 translate-y-[-0.1em]"
             />
           </span>
         </h1>
 
-        <div className="mt-6 sm:mt-8 max-w-3xl">
+        <div className="mt-8 max-w-3xl">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7, ease }}
-            className="font-serif text-2xl sm:text-3xl md:text-4xl leading-tight text-ink/90 text-balance"
+            transition={{ delay: 0.32, duration: 0.7, ease }}
+            className="font-display font-normal text-2xl sm:text-3xl md:text-[2.25rem] leading-tight text-ink/90 text-balance"
           >
-            Développeur <span className="italic text-accent">full-stack</span>, étudiant en Master 2 Architecture des Systèmes d'Information à l'ETNA et alternant chez Atos.
+            {t(d.hero.role)}{" "}
+            <span className="text-accent font-medium">{t(d.hero.accent)}</span>
+            {t(d.hero.locationSuffix)}
           </motion.p>
         </div>
 
@@ -59,7 +74,7 @@ export function Hero() {
             className="lg:col-span-7"
           >
             <p className="text-base sm:text-lg text-ink/70 leading-relaxed text-balance max-w-2xl">
-              Je travaille sur <span className="text-ink font-medium">Fresq</span>, le SI national des formations supérieures pour le Ministère de l'ESR. À côté, je développe <span className="text-ink font-medium">Sphere</span>, une plateforme éducative française avec IA souveraine, et j'ai fondé <span className="text-ink font-medium">Webase Studio</span>.
+              {t(d.hero.bio)}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -67,14 +82,14 @@ export function Hero() {
                 href="#projects"
                 className="group inline-flex items-center gap-2 bg-ink text-paper px-5 py-3 rounded-full font-medium hover:bg-accent transition-colors"
               >
-                Voir mes projets
+                {t(d.hero.ctaProjects)}
                 <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
                 href={profile.cvUrl}
-                className="group inline-flex items-center gap-2 border border-ink/20 hover:border-ink px-5 py-3 rounded-full font-medium transition-colors"
+                className="group inline-flex items-center gap-2 border border-line hover:border-ink/50 px-5 py-3 rounded-full font-medium transition-colors text-ink"
               >
-                Télécharger CV
+                {t(d.hero.ctaCV)}
                 <ArrowDownRight className="size-4" />
               </a>
             </div>
@@ -84,23 +99,23 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7, ease }}
-            className="lg:col-span-5 lg:border-l lg:border-ink/10 lg:pl-10"
+            className="lg:col-span-5 lg:border-l lg:border-line lg:pl-10"
           >
             <div className="font-mono text-xs uppercase tracking-[0.2em] text-muted mb-3">
-              Actuellement
+              {t(d.hero.currently)}
             </div>
-            <p className="text-ink/90 leading-relaxed">{profile.status}</p>
+            <p className="text-ink/90 leading-relaxed">{t(d.hero.status)}</p>
 
             <dl className="mt-8 grid grid-cols-3 gap-4">
-              <Stat value="6" label="Projets" />
-              <Stat value="3 ans" label="d'alternance" />
-              <Stat value="14.4" label="/20 BUT" />
+              <Stat value="6" label={t(d.hero.statProjects)} />
+              <Stat value="3 ans" label={t(d.hero.statYears)} />
+              <Stat value="14.4" label={t(d.hero.statBut)} />
             </dl>
           </motion.aside>
         </div>
       </div>
 
-      <div className="relative mt-20 sm:mt-28 border-y border-ink/10 py-5 overflow-hidden bg-cream/40">
+      <div className="relative mt-20 sm:mt-28 border-y border-line py-5 overflow-hidden bg-cream">
         <div className="flex marquee gap-3 whitespace-nowrap">
           {[...stackTags, ...stackTags, ...stackTags].map((tag, i) => (
             <TechBadge key={i} name={tag} size="md" variant="ghost" />
@@ -111,14 +126,14 @@ export function Hero() {
   );
 }
 
-function Word({ children, delay = 0, italic = false }: { children: string; delay?: number; italic?: boolean }) {
+function Word({ children, delay = 0 }: { children: string; delay?: number }) {
   return (
     <span className="inline-block overflow-hidden align-baseline">
       <motion.span
         initial={{ y: "100%" }}
         animate={{ y: 0 }}
         transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className={`inline-block ${italic ? "italic text-accent" : ""}`}
+        className="inline-block"
       >
         {children}
       </motion.span>
@@ -129,7 +144,7 @@ function Word({ children, delay = 0, italic = false }: { children: string; delay
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <div className="font-serif text-2xl sm:text-3xl text-ink">{value}</div>
+      <div className="font-display font-medium text-2xl sm:text-3xl text-ink">{value}</div>
       <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted">
         {label}
       </div>

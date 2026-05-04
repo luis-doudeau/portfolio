@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
-
-const links = [
-  { href: "#about", label: "À propos" },
-  { href: "#projects", label: "Projets" },
-  { href: "#timeline", label: "Parcours" },
-  { href: "#vision", label: "Ambitions" },
-  { href: "#contact", label: "Contact" },
-];
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "../theme/ThemeProvider";
+import { useLang } from "../i18n/LangProvider";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   const onHome = pathname === "/";
+  const { theme, toggle: toggleTheme } = useTheme();
+  const { lang, toggle: toggleLang, t, d } = useLang();
+
+  const links = [
+    { href: "#about", label: t(d.nav.about) },
+    { href: "#projects", label: t(d.nav.projects) },
+    { href: "#timeline", label: t(d.nav.timeline) },
+    { href: "#vision", label: t(d.nav.vision) },
+    { href: "#contact", label: t(d.nav.contact) },
+  ];
+
   const hrefFor = (h: string) => (onHome ? h : `/${h}`);
 
   useEffect(() => {
@@ -36,15 +42,18 @@ export function Nav() {
       <div
         className={`mx-auto max-w-6xl px-5 sm:px-8 flex items-center justify-between transition-all duration-300 ${
           scrolled
-            ? "bg-paper/80 backdrop-blur-md border border-ink/10 rounded-full py-2.5 px-3 shadow-[0_2px_20px_rgba(0,0,0,0.04)]"
+            ? "bg-paper/70 backdrop-blur-xl border border-line rounded-full py-2.5 px-3 shadow-[0_2px_30px_rgba(0,0,0,0.18)]"
             : ""
         }`}
       >
-        <a href={onHome ? "#top" : "/"} className="flex items-center gap-2 font-mono text-sm tracking-tight">
-          <span className="size-7 rounded-full bg-ink text-paper grid place-items-center text-[11px] font-bold">
+        <a
+          href={onHome ? "#top" : "/"}
+          className="flex items-center gap-2 font-mono text-sm tracking-tight"
+        >
+          <span className="size-7 rounded-full bg-accent text-paper grid place-items-center text-[11px] font-bold">
             LD
           </span>
-          <span className="hidden sm:inline font-semibold">luis-doudeau</span>
+          <span className="hidden sm:inline font-semibold text-ink">luis-doudeau</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-1 text-sm">
@@ -52,25 +61,43 @@ export function Nav() {
             <a
               key={l.href}
               href={hrefFor(l.href)}
-              className="px-3 py-1.5 rounded-full hover:bg-ink/5 transition-colors text-ink/80 hover:text-ink"
+              className="px-3 py-1.5 rounded-full hover:bg-ink/5 transition-colors text-ink/70 hover:text-ink"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={toggleLang}
+            aria-label="Toggle language"
+            className="hidden sm:inline-flex items-center font-mono text-[11px] font-bold uppercase tracking-wider px-2.5 h-9 rounded-full border border-line hover:border-ink/40 transition-colors text-ink/80"
+          >
+            <span className={lang === "fr" ? "text-accent" : ""}>FR</span>
+            <span className="mx-1 text-muted/50">/</span>
+            <span className={lang === "en" ? "text-accent" : ""}>EN</span>
+          </button>
+
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="size-9 grid place-items-center rounded-full border border-line hover:border-ink/40 transition-colors text-ink/80"
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </button>
+
           <a
             href={hrefFor("#contact")}
-            className="hidden sm:inline-flex items-center gap-2 bg-ink text-paper text-sm font-medium px-4 py-2 rounded-full hover:bg-accent transition-colors"
+            className="hidden lg:inline-flex items-center gap-2 bg-ink text-paper text-sm font-medium px-4 h-9 rounded-full hover:bg-accent transition-colors"
           >
-            Me contacter
-            <span className="size-1.5 rounded-full bg-accent group-hover:bg-paper" />
+            {t(d.nav.contactCta)}
           </a>
+
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"
-            className="md:hidden size-9 grid place-items-center rounded-full border border-ink/15"
+            className="md:hidden size-9 grid place-items-center rounded-full border border-line"
           >
             <span className="block w-4 h-px bg-ink relative before:content-[''] before:absolute before:inset-x-0 before:-top-1.5 before:h-px before:bg-ink after:content-[''] after:absolute after:inset-x-0 after:top-1.5 after:h-px after:bg-ink" />
           </button>
@@ -81,7 +108,7 @@ export function Nav() {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden mx-5 mt-2 rounded-2xl border border-ink/10 bg-paper p-3 shadow-lg"
+          className="md:hidden mx-5 mt-2 rounded-2xl border border-line bg-paper/95 backdrop-blur-xl p-3 shadow-lg"
         >
           {links.map((l) => (
             <a
@@ -93,6 +120,12 @@ export function Nav() {
               {l.label}
             </a>
           ))}
+          <button
+            onClick={toggleLang}
+            className="w-full text-left px-3 py-2 rounded-lg hover:bg-ink/5 text-ink/80 font-mono text-sm"
+          >
+            {lang === "fr" ? "Switch to English" : "Passer en français"}
+          </button>
         </motion.div>
       )}
     </motion.header>
