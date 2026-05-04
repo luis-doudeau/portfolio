@@ -32,14 +32,14 @@ export function Contact() {
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               className="font-serif text-5xl sm:text-7xl leading-[0.95] tracking-tight"
             >
-              Un projet ?<br />
-              <span className="italic text-accent">Une opportunité ?</span>
+              Vous voulez{" "}
+              <span className="italic text-accent">échanger ?</span>
               <br />
-              Parlons-en.
+              Le plus simple,<br /> c'est l'email.
             </motion.h2>
 
             <p className="mt-8 text-paper/70 max-w-md text-balance">
-              Je réponds en moins de 48h. Que ce soit un CDI, une mission freelance via Webase, ou juste une discussion tech — n'hésitez pas.
+              Que ce soit pour parler d'un projet, d'une opportunité ou juste discuter tech — j'essaie de répondre sous 48h.
             </p>
 
             <a

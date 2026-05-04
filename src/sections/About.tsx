@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { profile } from "../data/profile";
 import { skillGroups } from "../data/skills";
 import { SectionHeader } from "../components/SectionHeader";
+import { TechBadge } from "../components/TechBadge";
 
 export function About() {
   return (
@@ -34,7 +35,7 @@ export function About() {
             ))}
           </div>
 
-          <div className="md:col-span-5 space-y-5">
+          <div className="md:col-span-5 space-y-4">
             {skillGroups.map((group, i) => (
               <motion.div
                 key={group.label}
@@ -52,16 +53,11 @@ export function About() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <ul className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5">
                   {group.items.map((s) => (
-                    <li
-                      key={s}
-                      className="px-2.5 py-1 rounded-full bg-paper border border-ink/10 text-sm font-medium"
-                    >
-                      {s}
-                    </li>
+                    <TechBadge key={s} name={s} size="sm" />
                   ))}
-                </ul>
+                </div>
               </motion.div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 const links = [
   { href: "#about", label: "À propos" },
@@ -12,6 +13,9 @@ const links = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+  const onHome = pathname === "/";
+  const hrefFor = (h: string) => (onHome ? h : `/${h}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -36,7 +40,7 @@ export function Nav() {
             : ""
         }`}
       >
-        <a href="#top" className="flex items-center gap-2 font-mono text-sm tracking-tight">
+        <a href={onHome ? "#top" : "/"} className="flex items-center gap-2 font-mono text-sm tracking-tight">
           <span className="size-7 rounded-full bg-ink text-paper grid place-items-center text-[11px] font-bold">
             LD
           </span>
@@ -47,7 +51,7 @@ export function Nav() {
           {links.map((l) => (
             <a
               key={l.href}
-              href={l.href}
+              href={hrefFor(l.href)}
               className="px-3 py-1.5 rounded-full hover:bg-ink/5 transition-colors text-ink/80 hover:text-ink"
             >
               {l.label}
@@ -57,10 +61,10 @@ export function Nav() {
 
         <div className="flex items-center gap-2">
           <a
-            href="#contact"
+            href={hrefFor("#contact")}
             className="hidden sm:inline-flex items-center gap-2 bg-ink text-paper text-sm font-medium px-4 py-2 rounded-full hover:bg-accent transition-colors"
           >
-            Discutons
+            Me contacter
             <span className="size-1.5 rounded-full bg-accent group-hover:bg-paper" />
           </a>
           <button
@@ -82,7 +86,7 @@ export function Nav() {
           {links.map((l) => (
             <a
               key={l.href}
-              href={l.href}
+              href={hrefFor(l.href)}
               onClick={() => setOpen(false)}
               className="block px-3 py-2 rounded-lg hover:bg-ink/5 text-ink/80"
             >
