@@ -38,8 +38,8 @@ export function Hero() {
           </span>
         </motion.div>
 
-        {/* Name — both lines left-aligned */}
-        <h1 className="font-display font-medium text-[20vw] sm:text-[14vw] lg:text-[11rem] xl:text-[12rem] leading-[0.88] tracking-tight">
+        {/* Name — both lines left-aligned, more reasonable sizes */}
+        <h1 className="font-display font-semibold text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-[0.95] tracking-[-0.04em]">
           <Word delay={0.05}>{profile.firstName}</Word>
           <br />
           <span className="inline-flex items-baseline">
@@ -48,7 +48,7 @@ export function Hero() {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.5, ease }}
-              className="inline-block size-3 sm:size-5 rounded-full bg-accent ml-2 sm:ml-3 translate-y-[-0.1em]"
+              className="inline-block size-2.5 sm:size-3.5 rounded-full bg-accent ml-2 translate-y-[-0.05em]"
             />
           </span>
         </h1>
@@ -58,7 +58,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.32, duration: 0.7, ease }}
-            className="font-display font-normal text-2xl sm:text-3xl md:text-[2.25rem] leading-tight text-ink/90 text-balance"
+            className="text-xl sm:text-2xl md:text-[1.75rem] leading-snug text-ink/85 text-balance"
           >
             {t(d.hero.role)}{" "}
             <span className="text-accent font-medium">{t(d.hero.accent)}</span>

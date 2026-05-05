@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { CATEGORY_STYLE, categories, projects, type Project } from "../data/projects";
 import { SectionHeader } from "../components/SectionHeader";
 import { TechBadge } from "../components/TechBadge";
+import { ProjectLogo } from "../components/ProjectLogo";
 import { useLang } from "../i18n/LangProvider";
 
 export function Projects() {
@@ -59,7 +60,7 @@ export function Projects() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[minmax(280px,auto)]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[minmax(320px,auto)]">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (
               <ProjectCard key={project.id} project={project} index={i} />
@@ -80,6 +81,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       : "md:col-span-5"
     : "md:col-span-4";
 
+  // Subtle tinted background using the project's accent color
+  const tint = hexToRgba(project.accent.color, 0.06);
+  const tintHover = hexToRgba(project.accent.color, 0.10);
+
   return (
     <motion.article
       layout
@@ -88,59 +93,64 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       exit={{ opacity: 0, y: -8 }}
       transition={{ delay: index * 0.05, duration: 0.5 }}
       className={`relative group ${span}`}
+      style={{
+        // CSS var that the card uses; hover bumps via group-hover
+        ["--card-tint" as string]: tint,
+        ["--card-tint-hover" as string]: tintHover,
+      }}
     >
       <Link
         to={`/projects/${project.slug}`}
-        className="relative block h-full rounded-3xl border border-line overflow-hidden hover:-translate-y-1 transition-transform duration-300"
-        style={{ background: project.accent.gradient }}
+        className="relative block h-full rounded-3xl border border-line overflow-hidden hover:-translate-y-1 transition-all duration-300 group-hover:border-[color:var(--card-color)]"
+        style={{
+          background: "var(--card-tint)",
+          ["--card-color" as string]: project.accent.color,
+        }}
       >
-        {/* Pattern background */}
-        <Pattern accent={project.accent} />
-
         {/* Top stripe with project's accent color */}
         <div
           className="absolute top-0 inset-x-0 h-1"
           style={{ background: project.accent.color }}
         />
 
-        {/* Monogram in corner */}
-        <div
-          className="absolute top-6 right-6 size-12 rounded-2xl grid place-items-center font-display font-medium text-2xl"
-          style={{
-            background: project.accent.color,
-            color: "#fff",
-          }}
-        >
-          {project.accent.mark}
-        </div>
-
         <div className="relative h-full p-6 sm:p-8 flex flex-col">
-          {/* Header */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {project.categories.map((c) => {
-              const s = CATEGORY_STYLE[c];
-              return (
-                <span
-                  key={c}
-                  className={`font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-full border ${s.bg} ${s.text} ${s.border}`}
-                >
-                  {c}
-                </span>
-              );
-            })}
-            <span className="font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-full border border-line text-muted">
-              {project.year}
-            </span>
+          {/* Top row: logo + categories */}
+          <div className="flex items-start justify-between gap-3 mb-5">
+            <ProjectLogo
+              slug={project.slug}
+              color={project.accent.color}
+              size={project.featured ? 56 : 44}
+            />
+
+            <div className="flex flex-wrap gap-1 justify-end">
+              {project.categories.map((c) => {
+                const s = CATEGORY_STYLE[c];
+                return (
+                  <span
+                    key={c}
+                    className={`font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-full border ${s.bg} ${s.text} ${s.border}`}
+                  >
+                    {c}
+                  </span>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Title */}
+          {/* Title in project's font */}
           <h3
-            className="font-display font-medium text-3xl sm:text-4xl tracking-tight mb-2"
-            style={{ color: "var(--ink)" }}
+            className={`font-semibold tracking-tight mb-2 ${
+              project.featured ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"
+            }`}
+            style={{ fontFamily: project.accent.titleFont }}
           >
             {project.title}
           </h3>
-          <p className="text-sm text-ink/70 mb-5">{t(project.context)}</p>
+          <p className="text-sm text-ink/65 mb-4 font-mono">
+            <span className="text-muted">{project.year}</span>
+            <span className="mx-2 text-muted/40">·</span>
+            {t(project.context)}
+          </p>
 
           {/* Description */}
           <p className="text-sm sm:text-base text-ink/80 leading-relaxed mb-5 flex-1">
@@ -162,7 +172,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
             <div className="flex items-center justify-between pt-3 border-t border-line">
               <span className="font-mono text-xs text-muted">
-                {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(projects.length).padStart(2, "0")}
               </span>
               <span
                 className="inline-flex items-center gap-1.5 text-sm font-medium group-hover:gap-3 transition-all"
@@ -179,44 +190,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   );
 }
 
-function Pattern({ accent }: { accent: Project["accent"] }) {
-  if (accent.pattern === "dots") {
-    return (
-      <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(${accent.color} 1px, transparent 1px)`,
-          backgroundSize: "16px 16px",
-        }}
-      />
-    );
-  }
-  if (accent.pattern === "grid") {
-    return (
-      <div
-        className="absolute inset-0 opacity-[0.10] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(${accent.color} 1px, transparent 1px), linear-gradient(to right, ${accent.color} 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
-        }}
-      />
-    );
-  }
-  if (accent.pattern === "lines") {
-    return (
-      <div
-        className="absolute inset-0 opacity-[0.10] pointer-events-none"
-        style={{
-          backgroundImage: `repeating-linear-gradient(45deg, ${accent.color} 0 1px, transparent 1px 12px)`,
-        }}
-      />
-    );
-  }
-  // blob
-  return (
-    <div
-      className="absolute -bottom-24 -left-24 size-72 rounded-full opacity-[0.20] blur-3xl pointer-events-none"
-      style={{ background: accent.color }}
-    />
-  );
+function hexToRgba(hex: string, alpha: number) {
+  const m = hex.replace("#", "");
+  const r = parseInt(m.slice(0, 2), 16);
+  const g = parseInt(m.slice(2, 4), 16);
+  const b = parseInt(m.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

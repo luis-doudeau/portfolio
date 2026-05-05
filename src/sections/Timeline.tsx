@@ -11,7 +11,7 @@ export function Timeline() {
   const { t, d } = useLang();
 
   return (
-    <section id="timeline" className="py-24 sm:py-32 border-t border-line bg-cream">
+    <section id="timeline" className="py-24 sm:py-32 border-t border-line">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <SectionHeader
           index="03 / Career"
@@ -86,7 +86,7 @@ function Card({ item, index }: { item: TimelineItem; index: number }) {
     >
       <Link
         to={`/parcours/${item.slug}`}
-        className="block group rounded-2xl border border-line bg-paper p-5 hover:border-accent/40 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] transition-all"
+        className="block group rounded-2xl border border-line bg-cream p-5 hover:border-accent/40 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] transition-all"
       >
         <div className="flex items-start gap-4">
           <OrgLogo name={item.org} size={48} />

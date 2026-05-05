@@ -20,16 +20,14 @@ export type Project = {
   featured?: boolean;
   /** Visual identity */
   accent: {
-    /** Tailwind-friendly hex */
+    /** Primary brand color (hex) */
     color: string;
-    /** Optional secondary for gradients */
-    secondary?: string;
-    /** CSS gradient string used as card background */
-    gradient: string;
-    /** Letter mark / monogram */
+    /** On-color text (white or near-black) */
+    onColor: string;
+    /** Title font-family (CSS) */
+    titleFont: string;
+    /** Letter mark / monogram for fallback / corner */
     mark: string;
-    /** Pattern style */
-    pattern?: "dots" | "grid" | "lines" | "blob";
   };
 };
 
@@ -42,11 +40,10 @@ export const projects: Project[] = [
     categories: ["Side", "École"],
     featured: true,
     accent: {
-      color: "#fb923c",
-      secondary: "#f43f5e",
-      gradient: "linear-gradient(135deg, rgba(251,146,60,0.18) 0%, rgba(244,63,94,0.12) 100%)",
+      color: "#0f62fe",
+      onColor: "#ffffff",
+      titleFont: "'IBM Plex Sans', sans-serif",
       mark: "S",
-      pattern: "blob",
     },
     context: {
       fr: "Plateforme éducative SaaS — souveraine, IA pédagogique",
@@ -102,11 +99,10 @@ export const projects: Project[] = [
     categories: ["Pro"],
     featured: true,
     accent: {
-      color: "#10b981",
-      secondary: "#059669",
-      gradient: "linear-gradient(135deg, rgba(16,185,129,0.18) 0%, rgba(5,150,105,0.10) 100%)",
+      color: "#34cb6a",
+      onColor: "#000000",
+      titleFont: "'Manrope', 'Marianne', Arial, sans-serif",
       mark: "F",
-      pattern: "grid",
     },
     context: {
       fr: "Atos × Ministère de l'Enseignement supérieur et de la Recherche",
@@ -154,11 +150,10 @@ export const projects: Project[] = [
     year: "2026 →",
     categories: ["Freelance"],
     accent: {
-      color: "#6366f1",
-      secondary: "#8b5cf6",
-      gradient: "linear-gradient(135deg, rgba(99,102,241,0.16) 0%, rgba(139,92,246,0.10) 100%)",
+      color: "#345bff",
+      onColor: "#ffffff",
+      titleFont: "'Figtree', sans-serif",
       mark: "W",
-      pattern: "lines",
     },
     context: {
       fr: "Studio freelance fondé en 2026 — Orléans",
@@ -203,11 +198,10 @@ export const projects: Project[] = [
     year: "2023 — 2024",
     categories: ["École"],
     accent: {
-      color: "#a855f7",
-      secondary: "#ec4899",
-      gradient: "linear-gradient(135deg, rgba(168,85,247,0.18) 0%, rgba(236,72,153,0.10) 100%)",
+      color: "#4c00cc",
+      onColor: "#ffffff",
+      titleFont: "'Plus Jakarta Sans', sans-serif",
       mark: "P",
-      pattern: "dots",
     },
     context: { fr: "Projet BUT 3 — IUT d'Orléans", en: "BUT 3 project — IUT d'Orléans" },
     description: {
@@ -250,11 +244,10 @@ export const projects: Project[] = [
     year: "2022 — 2023",
     categories: ["École"],
     accent: {
-      color: "#eab308",
-      secondary: "#f59e0b",
-      gradient: "linear-gradient(135deg, rgba(234,179,8,0.18) 0%, rgba(245,158,11,0.10) 100%)",
+      color: "#6b85b8",
+      onColor: "#ffffff",
+      titleFont: "'Oxygen', sans-serif",
       mark: "B",
-      pattern: "dots",
     },
     context: {
       fr: "Festival de bande dessinée (22 000 visiteurs/an)",
@@ -302,11 +295,10 @@ export const projects: Project[] = [
     year: "2023",
     categories: ["Pro"],
     accent: {
-      color: "#64748b",
-      secondary: "#475569",
-      gradient: "linear-gradient(135deg, rgba(100,116,139,0.18) 0%, rgba(71,85,105,0.10) 100%)",
+      color: "#0059a6",
+      onColor: "#ffffff",
+      titleFont: "'Zen Dots', sans-serif",
       mark: "M",
-      pattern: "lines",
     },
     context: {
       fr: "Stage 2ᵉ année BUT — JULIEN MIALON",

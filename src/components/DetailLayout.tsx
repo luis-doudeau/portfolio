@@ -7,11 +7,20 @@ import { useLang } from "../i18n/LangProvider";
 type Props = {
   eyebrow: string;
   title: string;
+  titleFont?: string;
+  titleColor?: string;
   meta?: ReactNode;
   children: ReactNode;
 };
 
-export function DetailLayout({ eyebrow, title, meta, children }: Props) {
+export function DetailLayout({
+  eyebrow,
+  title,
+  titleFont,
+  titleColor,
+  meta,
+  children,
+}: Props) {
   const { t, d } = useLang();
 
   return (
@@ -30,12 +39,24 @@ export function DetailLayout({ eyebrow, title, meta, children }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-accent mb-4">
-            <span className="size-1.5 rounded-full bg-accent" />
+          <div
+            className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] mb-4"
+            style={{ color: titleColor ?? "var(--accent)" }}
+          >
+            <span
+              className="size-1.5 rounded-full"
+              style={{ background: titleColor ?? "var(--accent)" }}
+            />
             {eyebrow}
           </div>
 
-          <h1 className="font-display font-medium text-4xl sm:text-6xl leading-[1.02] tracking-tight text-balance">
+          <h1
+            className="font-semibold text-4xl sm:text-6xl leading-[1.02] tracking-tight text-balance"
+            style={{
+              fontFamily: titleFont ?? "var(--font-display)",
+              color: "var(--ink)",
+            }}
+          >
             {title}
           </h1>
 

@@ -3,6 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { getProject } from "../data/projects";
 import { DetailLayout } from "../components/DetailLayout";
 import { TechBadge } from "../components/TechBadge";
+import { ProjectLogo } from "../components/ProjectLogo";
 import { useLang } from "../i18n/LangProvider";
 
 export function ProjectDetail() {
@@ -16,6 +17,8 @@ export function ProjectDetail() {
     <DetailLayout
       eyebrow={`${t(d.detail.project)} · ${project.categories.join(" / ")}`}
       title={project.title}
+      titleFont={project.accent.titleFont}
+      titleColor={project.accent.color}
       meta={
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted">
           <span className="font-mono">{project.year}</span>
@@ -33,24 +36,26 @@ export function ProjectDetail() {
         </div>
       }
     >
-      {/* Hero strip with project's accent */}
+      {/* Hero strip: solid project tint, logo + tagline (no patterns) */}
       <div
         className="rounded-3xl border border-line p-8 mb-10 relative overflow-hidden"
-        style={{ background: project.accent.gradient }}
+        style={{ background: hexToRgba(project.accent.color, 0.08) }}
       >
         <div
-          className="absolute -top-12 -right-12 size-48 rounded-full opacity-30 blur-3xl"
+          className="absolute -top-12 -right-12 size-48 rounded-full opacity-20 blur-3xl"
           style={{ background: project.accent.color }}
         />
-        <div
-          className="relative font-display text-7xl sm:text-8xl font-medium"
-          style={{ color: project.accent.color }}
-        >
-          {project.accent.mark}
+        <div className="relative flex items-start gap-6">
+          <ProjectLogo slug={project.slug} color={project.accent.color} size={88} />
+          <div>
+            <p
+              className="text-xl sm:text-2xl font-semibold leading-snug max-w-2xl"
+              style={{ fontFamily: project.accent.titleFont, color: "var(--ink)" }}
+            >
+              {t(project.description)}
+            </p>
+          </div>
         </div>
-        <p className="relative mt-4 font-display text-xl sm:text-2xl text-ink/90 max-w-2xl">
-          {t(project.description)}
-        </p>
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">
@@ -77,7 +82,7 @@ export function ProjectDetail() {
                     href={l.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-between gap-2 text-sm font-medium border border-line hover:border-accent/40 hover:bg-cream transition-colors px-3 py-2 rounded-xl group"
+                    className="inline-flex items-center justify-between gap-2 text-sm font-medium border border-line hover:border-accent/40 hover:bg-paper transition-colors px-3 py-2 rounded-xl group"
                   >
                     {t(l.label)}
                     <ArrowUpRight className="size-3.5 group-hover:rotate-45 transition-transform" />
@@ -90,13 +95,18 @@ export function ProjectDetail() {
       </div>
 
       <div className="mt-16 border-t border-line pt-10">
-        <h2 className="font-display font-medium text-2xl tracking-tight mb-5">
+        <h2 className="font-display font-semibold text-2xl tracking-tight mb-5">
           {t(d.detail.keypoints)}
         </h2>
         <ul className="space-y-3">
           {tl(project.highlights).map((h, i) => (
             <li key={i} className="flex gap-3 text-ink/85">
-              <span className="font-mono text-accent shrink-0">→</span>
+              <span
+                className="font-mono shrink-0"
+                style={{ color: project.accent.color }}
+              >
+                →
+              </span>
               {h}
             </li>
           ))}
@@ -115,4 +125,12 @@ function Block({ label, children }: { label: string; children: React.ReactNode }
       <div className="text-sm text-ink/85">{children}</div>
     </div>
   );
+}
+
+function hexToRgba(hex: string, alpha: number) {
+  const m = hex.replace("#", "");
+  const r = parseInt(m.slice(0, 2), 16);
+  const g = parseInt(m.slice(2, 4), 16);
+  const b = parseInt(m.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
