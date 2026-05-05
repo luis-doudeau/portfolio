@@ -1,6 +1,6 @@
-import { ArrowUpRight, MapPin } from "lucide-react";
-import { Navigate, useParams } from "react-router-dom";
-import { getProject } from "../data/projects";
+import { ArrowUpRight, Calendar, Hash, MapPin, Users } from "lucide-react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { getProject, projects } from "../data/projects";
 import { DetailLayout } from "../components/DetailLayout";
 import { TechBadge } from "../components/TechBadge";
 import { ProjectLogo } from "../components/ProjectLogo";
@@ -13,6 +13,8 @@ export function ProjectDetail() {
 
   if (!project) return <Navigate to="/" replace />;
 
+  const related = projects.filter((p) => p.slug !== project.slug).slice(0, 3);
+
   return (
     <DetailLayout
       eyebrow={`${t(d.detail.project)} · ${project.categories.join(" / ")}`}
@@ -24,19 +26,10 @@ export function ProjectDetail() {
           <span className="font-mono">{project.year}</span>
           <span className="size-1 rounded-full bg-muted/40" />
           <span>{t(project.context)}</span>
-          {project.team && (
-            <>
-              <span className="size-1 rounded-full bg-muted/40" />
-              <span className="inline-flex items-center gap-1">
-                <MapPin className="size-3.5" />
-                {t(project.team)}
-              </span>
-            </>
-          )}
         </div>
       }
     >
-      {/* Hero strip: solid project tint, logo + tagline (no patterns) */}
+      {/* Hero strip with project logo + tagline */}
       <div
         className="rounded-3xl border border-line p-8 mb-10 relative overflow-hidden"
         style={{ background: hexToRgba(project.accent.color, 0.08) }}
@@ -58,6 +51,34 @@ export function ProjectDetail() {
         </div>
       </div>
 
+      {/* Stats banner */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10">
+        <Stat
+          icon={<Calendar className="size-4" />}
+          label={t(d.detail.duration)}
+          value={project.year}
+        />
+        {project.role && (
+          <Stat
+            icon={<Users className="size-4" />}
+            label={t(d.detail.role)}
+            value={t(project.role)}
+          />
+        )}
+        <Stat
+          icon={<Hash className="size-4" />}
+          label={t(d.detail.technologies)}
+          value={`${project.stack.length}`}
+        />
+        {project.team && (
+          <Stat
+            icon={<MapPin className="size-4" />}
+            label="Team"
+            value={t(project.team)}
+          />
+        )}
+      </div>
+
       <div className="grid md:grid-cols-3 gap-10">
         <div className="md:col-span-2 space-y-5 text-ink/85 text-base sm:text-lg leading-relaxed">
           {project.longDescription &&
@@ -65,7 +86,6 @@ export function ProjectDetail() {
         </div>
 
         <aside className="space-y-5">
-          {project.role && <Block label={t(d.detail.role)}>{t(project.role)}</Block>}
           <Block label={t(d.detail.stack)}>
             <div className="flex flex-wrap gap-1.5 mt-2">
               {project.stack.map((s) => (
@@ -112,6 +132,36 @@ export function ProjectDetail() {
           ))}
         </ul>
       </div>
+
+      {/* Related projects */}
+      {related.length > 0 && (
+        <div className="mt-16 border-t border-line pt-10">
+          <h2 className="font-display font-semibold text-2xl tracking-tight mb-5">
+            {t(d.detail.relatedProjects)}
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-3">
+            {related.map((p) => (
+              <Link
+                key={p.slug}
+                to={`/projects/${p.slug}`}
+                className="group block p-4 rounded-2xl border border-line hover:border-accent/40 transition-colors"
+                style={{ background: hexToRgba(p.accent.color, 0.04) }}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <ProjectLogo slug={p.slug} color={p.accent.color} size={32} />
+                  <span
+                    className="font-semibold text-sm group-hover:text-accent transition-colors"
+                    style={{ fontFamily: p.accent.titleFont }}
+                  >
+                    {p.title}
+                  </span>
+                </div>
+                <p className="text-xs text-ink/65 line-clamp-2">{t(p.context)}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </DetailLayout>
   );
 }
@@ -123,6 +173,28 @@ function Block({ label, children }: { label: string; children: React.ReactNode }
         {label}
       </div>
       <div className="text-sm text-ink/85">{children}</div>
+    </div>
+  );
+}
+
+function Stat({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-line p-4 bg-cream">
+      <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted mb-1.5">
+        <span className="text-accent">{icon}</span>
+        {label}
+      </div>
+      <div className="font-display font-semibold text-base text-ink truncate">
+        {value}
+      </div>
     </div>
   );
 }

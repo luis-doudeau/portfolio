@@ -5,16 +5,62 @@ export type OrgInfo = {
   short: string;
   bg: string;
   text: string;
+  gps?: { lat: number; lng: number; label: string };
+  website?: string;
 };
 
 export const ORGS: Record<string, OrgInfo> = {
-  Atos: { name: "Atos", short: "ATOS", bg: "#0066A1", text: "#ffffff" },
-  ETNA: { name: "ETNA", short: "ETNA", bg: "#E74C3C", text: "#ffffff" },
-  "Webase Studio": { name: "Webase Studio", short: "WB", bg: "#6366F1", text: "#ffffff" },
-  "IUT d'Orléans": { name: "IUT d'Orléans", short: "IUT", bg: "#1A5490", text: "#ffffff" },
-  "Lycée en Forêt": { name: "Lycée en Forêt", short: "LF", bg: "#5C7A29", text: "#ffffff" },
-  "EURIAL — Agrial": { name: "EURIAL", short: "EU", bg: "#003E7E", text: "#ffffff" },
-  "JULIEN MIALON": { name: "JULIEN MIALON", short: "JM", bg: "#7B2D8E", text: "#ffffff" },
+  Atos: {
+    name: "Atos",
+    short: "ATOS",
+    bg: "#0066A1",
+    text: "#ffffff",
+    gps: { lat: 47.86, lng: 1.901, label: "Atos · Olivet" },
+    website: "https://atos.net",
+  },
+  ETNA: {
+    name: "ETNA",
+    short: "ETNA",
+    bg: "#E74C3C",
+    text: "#ffffff",
+    gps: { lat: 48.815, lng: 2.382, label: "ETNA · Ivry-sur-Seine" },
+    website: "https://etna.io",
+  },
+  "Webase Studio": {
+    name: "Webase Studio",
+    short: "WB",
+    bg: "#6366F1",
+    text: "#ffffff",
+    gps: { lat: 47.902, lng: 1.909, label: "Webase Studio · Orléans" },
+  },
+  "IUT d'Orléans": {
+    name: "IUT d'Orléans",
+    short: "IUT",
+    bg: "#1A5490",
+    text: "#ffffff",
+    gps: { lat: 47.844, lng: 1.943, label: "IUT d'Orléans" },
+    website: "https://www.univ-orleans.fr/iut-orleans/",
+  },
+  "Lycée en Forêt": {
+    name: "Lycée en Forêt",
+    short: "LF",
+    bg: "#5C7A29",
+    text: "#ffffff",
+    gps: { lat: 47.998, lng: 2.733, label: "Lycée en Forêt · Montargis" },
+  },
+  "EURIAL — Agrial": {
+    name: "EURIAL",
+    short: "EU",
+    bg: "#003E7E",
+    text: "#ffffff",
+    gps: { lat: 48.044, lng: 2.512, label: "EURIAL · Lorris" },
+  },
+  "JULIEN MIALON": {
+    name: "JULIEN MIALON",
+    short: "JM",
+    bg: "#7B2D8E",
+    text: "#ffffff",
+  },
 };
 
 export type TimelineItem = {

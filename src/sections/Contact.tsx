@@ -43,7 +43,7 @@ export function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-medium text-5xl sm:text-7xl leading-[0.95] tracking-tight"
+              className="font-display font-semibold text-5xl sm:text-7xl leading-[0.95] tracking-[-0.03em]"
             >
               {t(d.contact.title)}{" "}
               <span className="text-accent">{t(d.contact.titleAccent)}</span>
@@ -59,7 +59,7 @@ export function Contact() {
               href={profile.socials.email}
               className="mt-10 inline-flex items-center gap-3 group"
             >
-              <span className="font-display font-medium text-3xl sm:text-5xl tracking-tight underline decoration-accent decoration-2 underline-offset-8 group-hover:text-accent transition-colors break-all">
+              <span className="font-display font-semibold text-3xl sm:text-5xl tracking-tight underline decoration-accent decoration-2 underline-offset-8 group-hover:text-accent transition-colors break-all">
                 {profile.email}
               </span>
               <ArrowUpRight className="size-8 sm:size-10 group-hover:rotate-45 transition-transform shrink-0" />

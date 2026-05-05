@@ -33,6 +33,11 @@ export const dict = {
     statProjects: { fr: "Projets", en: "Projects" },
     statYears: { fr: "d'alternance", en: "apprenticeship" },
     statBut: { fr: "/20 BUT", en: "/20 BUT" },
+    available: { fr: "Disponible", en: "Available" },
+    nowCoding: { fr: "En train de coder", en: "Currently coding" },
+    nowAt: { fr: "Actuellement chez", en: "Currently at" },
+    localTime: { fr: "Heure locale", en: "Local time" },
+    learning: { fr: "J'apprends", en: "Learning" },
   },
 
   about: {
@@ -143,15 +148,15 @@ export const dict = {
 
   contact: {
     label: { fr: "Contact", en: "Contact" },
-    title: { fr: "Vous voulez", en: "Want to" },
-    titleAccent: { fr: "échanger ?", en: "talk?" },
+    title: { fr: "Discutons", en: "Let's" },
+    titleAccent: { fr: "d'un projet.", en: "talk shop." },
     titleSecond: {
-      fr: "Le plus simple, c'est l'email.",
-      en: "Email is the simplest way.",
+      fr: "Ou juste de tech.",
+      en: "Or just about tech.",
     },
     description: {
-      fr: "Que ce soit pour parler d'un projet, d'une opportunité ou juste discuter tech — j'essaie de répondre sous 48h.",
-      en: "Whether it's about a project, an opportunity or just tech talk — I try to reply within 48 hours.",
+      fr: "Une opportunité, un projet, une question — j'essaie de répondre sous 48h.",
+      en: "An opportunity, a project, a question — I aim to reply within 48 hours.",
     },
     location: { fr: "Paris, France", en: "Paris, France" },
     open: {
@@ -176,6 +181,17 @@ export const dict = {
     links: { fr: "Liens", en: "Links" },
     resources: { fr: "Ressources", en: "Resources" },
     keypoints: { fr: "Points clés", en: "Key points" },
+    overview: { fr: "Vue d'ensemble", en: "Overview" },
+    duration: { fr: "Durée", en: "Duration" },
+    location: { fr: "Lieu", en: "Location" },
+    technologies: { fr: "Technologies", en: "Technologies" },
+    map: { fr: "Localisation", en: "Where" },
+    relatedProjects: { fr: "Autres projets", en: "Other projects" },
+    relatedTimeline: { fr: "Voir aussi", en: "See also" },
+    seeMore: { fr: "Voir le détail", en: "See detail" },
+    months: { fr: "mois", en: "months" },
+    years: { fr: "ans", en: "years" },
+    ongoing: { fr: "En cours", en: "Ongoing" },
   },
 } as const;
 
