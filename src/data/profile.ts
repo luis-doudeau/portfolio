@@ -3,13 +3,13 @@ export const profile = {
   firstName: "Luis",
   lastName: "Doudeau",
   initials: "LD",
-  email: "louis.doudo@gmail.com",
+  email: "luis.doudeau@gmail.com",
   cvUrl: "/cv-luis-doudeau.pdf",
   photoUrl: "/me.jpg",
   socials: {
     github: "https://github.com/luis-doudeau",
     linkedin: "https://www.linkedin.com/in/luis-doudeau",
-    email: "mailto:louis.doudo@gmail.com",
+    email: "mailto:luis.doudeau@gmail.com",
   },
   facts: {
     yearsCode: "8+",

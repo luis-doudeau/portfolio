@@ -1,25 +1,25 @@
 <!doctype html>
-<html lang="fr" class="dark">
+<html lang="fr" class="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Luis Doudeau — Développeur full-stack, étudiant MSc Architecture des Systèmes d'Information à l'ETNA, alternant chez Atos." />
-    <meta name="theme-color" content="#08080c" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:title" content="Luis Doudeau — Full-Stack Developer" />
     <meta property="og:description" content="Étudiant MSc à l'ETNA, alternant chez Atos. React, TypeScript, Java/Spring, Python, Go." />
     <meta property="og:type" content="website" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700;800&family=Oxygen:wght@400;700&family=Zen+Dots&family=Plus+Jakarta+Sans:wght@500;700;800&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Figtree:wght@400;500;600;700;800&family=Oxygen:wght@400;700&family=Zen+Dots&family=Plus+Jakarta+Sans:wght@500;700;800&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet" />
     <script>
       // Set theme + lang from localStorage before paint to avoid flash
       (function() {
         try {
           var t = localStorage.getItem('theme');
           var html = document.documentElement;
-          if (t === 'light') { html.classList.add('light'); html.classList.remove('dark'); }
-          else { html.classList.add('dark'); html.classList.remove('light'); }
+          if (t === 'dark') { html.classList.add('dark'); html.classList.remove('light'); }
+          else { html.classList.add('light'); html.classList.remove('dark'); }
           var l = localStorage.getItem('lang');
           if (l === 'en' || l === 'fr') html.setAttribute('lang', l);
         } catch (e) {}

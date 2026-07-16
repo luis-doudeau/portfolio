@@ -21,12 +21,12 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-24 sm:py-32 border-t border-line bg-[#08080c] text-[#f0eee6] relative overflow-hidden"
+      className="py-24 sm:py-32 bg-[#0d0d0f] text-[#f4f4f5] relative overflow-hidden"
     >
       <div
-        className="absolute -top-20 left-1/2 -translate-x-1/2 size-[600px] rounded-full pointer-events-none opacity-50"
+        className="absolute -top-24 left-1/2 -translate-x-1/2 size-[720px] rounded-full pointer-events-none opacity-60"
         style={{
-          background: "radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(circle, rgba(110,168,255,0.16) 0%, transparent 68%)",
         }}
       />
 

@@ -3,63 +3,88 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Geist", "Inter", system-ui, sans-serif;
+  --font-sans: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
+  --font-display: "Hanken Grotesk", system-ui, -apple-system, sans-serif;
   --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
 
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-cream: var(--cream);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-soft: var(--accent-soft);
   --color-accent-strong: var(--accent-strong);
+
+  --shadow-soft: var(--sh-soft);
+  --shadow-card: var(--sh-card);
+  --shadow-float: var(--sh-float);
+
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
 }
 
+/* ── Light is the primary aesthetic (Studio / OpenAI) ───────────────── */
 :root,
-.dark {
-  --paper: #08080c;
-  --ink: #f5f3ee;
-  --cream: #14141c;
-  --line: rgba(245, 243, 238, 0.08);
-  --muted: #8b8b94;
-  --accent: #38bdf8;
-  --accent-soft: rgba(56, 189, 248, 0.12);
-  --accent-strong: #0ea5e9;
+.light {
+  --paper: #ffffff;
+  --ink: #0d0d0d;
+  --cream: #f7f7f8;
+  --line: #ececec;
+  --line-strong: #e0e0e0;
+  --muted: #6e6e73;
+  --accent: #2f6bff;
+  --accent-soft: rgba(47, 107, 255, 0.08);
+  --accent-strong: #1d5be0;
+
+  --sh-soft: 0 1px 2px rgba(13, 13, 13, 0.04);
+  --sh-card: 0 1px 3px rgba(13, 13, 13, 0.05), 0 8px 24px rgba(13, 13, 13, 0.04);
+  --sh-float: 0 4px 12px rgba(13, 13, 13, 0.06), 0 16px 40px rgba(13, 13, 13, 0.08);
 }
 
-.light {
-  --paper: #fafafa;
-  --ink: #08080c;
-  --cream: #f1f1f4;
-  --line: rgba(8, 8, 12, 0.08);
-  --muted: #6b7280;
-  --accent: #0284c7;
-  --accent-soft: rgba(2, 132, 199, 0.08);
-  --accent-strong: #0369a1;
+/* ── Dark counterpart (same DA, inverted) ───────────────────────────── */
+.dark {
+  --paper: #0d0d0f;
+  --ink: #f4f4f5;
+  --cream: #17171a;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --muted: #9a9aa2;
+  --accent: #6ea8ff;
+  --accent-soft: rgba(110, 168, 255, 0.12);
+  --accent-strong: #8bb8ff;
+
+  --sh-soft: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --sh-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --sh-float: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
-  }
-  html.light {
     color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
     background: var(--paper);
     color: var(--ink);
     @apply font-sans antialiased;
-    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    letter-spacing: -0.011em;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::selection {
     background: var(--accent);
-    color: var(--paper);
+    color: #ffffff;
   }
 }
 
@@ -69,7 +94,7 @@
   }
 
   .marquee {
-    animation: marquee 50s linear infinite;
+    animation: marquee 55s linear infinite;
   }
 
   @keyframes marquee {
@@ -81,10 +106,13 @@
     text-wrap: balance;
   }
 
+  /* Faint dotted grid, very subtle — OpenAI-style backdrop */
   .grid-bg {
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(to right, var(--line) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+    background-size: 26px 26px;
   }
+
+  .shadow-soft { box-shadow: var(--sh-soft); }
+  .shadow-card { box-shadow: var(--sh-card); }
+  .shadow-float { box-shadow: var(--sh-float); }
 }

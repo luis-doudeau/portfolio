@@ -11,10 +11,10 @@ type Ctx = {
 const ThemeContext = createContext<Ctx | null>(null);
 
 function readInitial(): Theme {
-  if (typeof window === "undefined") return "dark";
+  if (typeof window === "undefined") return "light";
   const saved = localStorage.getItem("theme");
   if (saved === "light" || saved === "dark") return saved;
-  return "dark";
+  return "light";
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {

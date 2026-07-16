@@ -29,7 +29,7 @@ export function Vision() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.06, duration: 0.5 }}
-              className="relative p-8 rounded-3xl border border-line hover:border-accent/40 transition-colors group overflow-hidden"
+              className="relative p-8 rounded-3xl border border-line bg-paper shadow-soft hover:shadow-card hover:border-accent/40 transition-all group overflow-hidden"
             >
               <span className="absolute top-6 right-6 font-mono text-xs text-muted">
                 0{i + 1}

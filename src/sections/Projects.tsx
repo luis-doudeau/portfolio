@@ -1,11 +1,9 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { CATEGORY_STYLE, categories, projects, type Project } from "../data/projects";
+import { categories, projects, type Project } from "../data/projects";
 import { SectionHeader } from "../components/SectionHeader";
-import { TechBadge } from "../components/TechBadge";
-import { ProjectLogo } from "../components/ProjectLogo";
 import { useLang } from "../i18n/LangProvider";
 
 export function Projects() {
@@ -37,15 +35,16 @@ export function Projects() {
           description={t(d.projects.description)}
         />
 
-        <div className="flex flex-wrap gap-2 mb-10">
+        {/* Filter bar */}
+        <div className="flex flex-wrap gap-2 mb-12">
           {categories.map((c) => (
             <button
               key={c}
               onClick={() => setFilter(c)}
-              className={`relative px-4 py-2 rounded-full text-sm font-medium border transition-all ${
+              className={`relative px-4 py-1.5 rounded-full text-[13px] font-medium transition-all ${
                 filter === c
-                  ? "bg-ink text-paper border-ink"
-                  : "border-line hover:border-ink/40 text-ink/80"
+                  ? "bg-ink text-paper"
+                  : "text-muted hover:text-ink"
               }`}
             >
               {c === "Tous" ? t(d.projects.filterAll) : c}
@@ -60,7 +59,8 @@ export function Projects() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[minmax(320px,auto)]">
+        {/* Project list — clean vertical stack */}
+        <div className="space-y-0 border-t border-line">
           <AnimatePresence mode="popLayout">
             {filtered.map((project, i) => (
               <ProjectCard key={project.id} project={project} index={i} />
@@ -74,126 +74,76 @@ export function Projects() {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const { t } = useLang();
-  // Featured projects span 7/5 cols on first row, others are 4 cols (3 per row)
-  const span = project.featured
-    ? index === 0
-      ? "md:col-span-7"
-      : "md:col-span-5"
-    : "md:col-span-4";
-
-  // Subtle tinted background using the project's accent color
-  const tint = hexToRgba(project.accent.color, 0.06);
-  const tintHover = hexToRgba(project.accent.color, 0.10);
 
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ delay: index * 0.05, duration: 0.5 }}
-      className={`relative group ${span}`}
-      style={{
-        // CSS var that the card uses; hover bumps via group-hover
-        ["--card-tint" as string]: tint,
-        ["--card-tint-hover" as string]: tintHover,
-      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ delay: index * 0.04, duration: 0.4 }}
+      className="group"
     >
       <Link
         to={`/projects/${project.slug}`}
-        className="relative block h-full rounded-3xl border border-line overflow-hidden hover:-translate-y-1 transition-all duration-300 group-hover:border-[color:var(--card-color)]"
-        style={{
-          background: "var(--card-tint)",
-          ["--card-color" as string]: project.accent.color,
-        }}
+        className="block border-b border-line py-8 sm:py-10 transition-colors hover:bg-cream/50"
       >
-        {/* Top stripe with project's accent color */}
-        <div
-          className="absolute top-0 inset-x-0 h-1"
-          style={{ background: project.accent.color }}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 items-start">
+          {/* Left: number + year */}
+          <div className="md:col-span-1 flex md:flex-col gap-3 md:gap-1">
+            <span className="font-mono text-xs text-muted">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="font-mono text-xs text-muted md:hidden">
+              {project.year}
+            </span>
+          </div>
 
-        <div className="relative h-full p-6 sm:p-8 flex flex-col">
-          {/* Top row: logo + categories */}
-          <div className="flex items-start justify-between gap-3 mb-5">
-            <ProjectLogo
-              slug={project.slug}
-              color={project.accent.color}
-              size={project.featured ? 56 : 44}
-            />
+          {/* Center: main content */}
+          <div className="md:col-span-8">
+            {/* Title row */}
+            <div className="flex items-center gap-3 mb-2">
+              <span
+                className="size-2 rounded-full shrink-0"
+                style={{ background: project.accent.color }}
+              />
+              <h3 className="font-display font-semibold text-xl sm:text-2xl tracking-tight text-ink group-hover:text-accent transition-colors">
+                {project.title}
+              </h3>
+              <span className="hidden md:inline font-mono text-xs text-muted ml-1">
+                {project.year}
+              </span>
+            </div>
 
-            <div className="flex flex-wrap gap-1 justify-end">
-              {project.categories.map((c) => {
-                const s = CATEGORY_STYLE[c];
-                return (
-                  <span
-                    key={c}
-                    className={`font-mono text-[10px] uppercase tracking-[0.15em] px-2 py-0.5 rounded-full border ${s.bg} ${s.text} ${s.border}`}
-                  >
-                    {c}
-                  </span>
-                );
-              })}
+            {/* Context */}
+            <p className="text-sm text-muted mb-3 pl-5">
+              {t(project.context)}
+            </p>
+
+            {/* Description */}
+            <p className="text-sm sm:text-[15px] text-ink/75 leading-relaxed pl-5 max-w-2xl">
+              {t(project.description)}
+            </p>
+
+            {/* Stack — plain text, no badges */}
+            <div className="mt-4 pl-5 flex flex-wrap gap-x-1 gap-y-0">
+              {project.stack.map((s, i) => (
+                <span key={s} className="font-mono text-[11px] text-muted">
+                  {s}{i < project.stack.length - 1 && <span className="mx-1 text-line-strong">·</span>}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Title in project's font */}
-          <h3
-            className={`font-semibold tracking-tight mb-2 ${
-              project.featured ? "text-3xl sm:text-4xl" : "text-2xl sm:text-3xl"
-            }`}
-            style={{ fontFamily: project.accent.titleFont }}
-          >
-            {project.title}
-          </h3>
-          <p className="text-sm text-ink/65 mb-4 font-mono">
-            <span className="text-muted">{project.year}</span>
-            <span className="mx-2 text-muted/40">·</span>
-            {t(project.context)}
-          </p>
-
-          {/* Description */}
-          <p className="text-sm sm:text-base text-ink/80 leading-relaxed mb-5 flex-1">
-            {t(project.description)}
-          </p>
-
-          {/* Stack */}
-          <div className="mt-auto space-y-4">
-            <div className="flex flex-wrap gap-1.5">
-              {project.stack.slice(0, project.featured ? 6 : 4).map((s) => (
-                <TechBadge key={s} name={s} size="sm" variant="ghost" />
-              ))}
-              {project.stack.length > (project.featured ? 6 : 4) && (
-                <span className="font-mono text-[11px] text-muted px-2 py-0.5">
-                  +{project.stack.length - (project.featured ? 6 : 4)}
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between pt-3 border-t border-line">
-              <span className="font-mono text-xs text-muted">
-                {String(index + 1).padStart(2, "0")} /{" "}
-                {String(projects.length).padStart(2, "0")}
-              </span>
-              <span
-                className="inline-flex items-center gap-1.5 text-sm font-medium group-hover:gap-3 transition-all"
-                style={{ color: project.accent.color }}
-              >
-                Voir
-                <ArrowUpRight className="size-4 group-hover:rotate-45 transition-transform" />
-              </span>
-            </div>
+          {/* Right: arrow */}
+          <div className="hidden md:flex md:col-span-3 items-center justify-end pt-1">
+            <span className="inline-flex items-center gap-2 text-sm text-muted group-hover:text-accent group-hover:gap-3 transition-all">
+              {project.categories[0]}
+              <ArrowRight className="size-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+            </span>
           </div>
         </div>
       </Link>
     </motion.article>
   );
-}
-
-function hexToRgba(hex: string, alpha: number) {
-  const m = hex.replace("#", "");
-  const r = parseInt(m.slice(0, 2), 16);
-  const g = parseInt(m.slice(2, 4), 16);
-  const b = parseInt(m.slice(4, 6), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

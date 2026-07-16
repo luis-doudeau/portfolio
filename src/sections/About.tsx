@@ -66,7 +66,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ delay: i * 0.06, duration: 0.5 }}
-                className="border border-line rounded-2xl p-5 bg-paper hover:border-accent/40 hover:bg-cream transition-colors"
+                className="border border-line rounded-2xl p-5 bg-paper shadow-soft hover:border-accent/40 hover:shadow-card transition-all"
               >
                 <div className="flex items-center justify-between mb-3">
                   <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">

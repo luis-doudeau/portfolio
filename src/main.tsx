@@ -11,8 +11,8 @@ if (typeof window !== "undefined") {
   // eslint-disable-next-line no-console
   console.log(
     "%cLuis Doudeau %c· dev portfolio\n%cYou're peeking at the console — nice. " +
-      "If you're here to chat code or ship something, hit me up: louis.doudo@gmail.com",
-    "color:#38bdf8;font-size:18px;font-weight:700;font-family:'Geist',sans-serif",
+      "If you're here to chat code or ship something, hit me up: luis.doudeau@gmail.com",
+    "color:#2f6bff;font-size:18px;font-weight:700;font-family:'Hanken Grotesk',sans-serif",
     "color:#9ca3af;font-size:14px;font-family:monospace",
     "color:#d1d5db;font-size:12px;font-family:monospace"
   );

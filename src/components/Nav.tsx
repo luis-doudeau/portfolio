@@ -42,7 +42,7 @@ export function Nav() {
       <div
         className={`mx-auto max-w-6xl px-5 sm:px-8 flex items-center justify-between transition-all duration-300 ${
           scrolled
-            ? "bg-paper/70 backdrop-blur-xl border border-line rounded-full py-2.5 px-3 shadow-[0_2px_30px_rgba(0,0,0,0.18)]"
+            ? "bg-paper/80 backdrop-blur-xl border border-line rounded-full py-2.5 px-3 shadow-float"
             : ""
         }`}
       >
@@ -50,10 +50,10 @@ export function Nav() {
           href={onHome ? "#top" : "/"}
           className="flex items-center gap-2 font-mono text-sm tracking-tight"
         >
-          <span className="size-7 rounded-full bg-accent text-paper grid place-items-center text-[11px] font-bold">
+          <span className="size-7 rounded-lg bg-ink text-paper grid place-items-center text-[11px] font-bold">
             LD
           </span>
-          <span className="hidden sm:inline font-semibold text-ink">luis-doudeau</span>
+          <span className="hidden sm:inline font-semibold text-ink tracking-tight">Luis Doudeau</span>
         </a>
 
         <nav className="hidden md:flex items-center gap-1 text-sm">

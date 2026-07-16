@@ -1,11 +1,8 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { ArrowUpRight, Briefcase, GraduationCap, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, Briefcase, GraduationCap, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { eduItems, workItems, type TimelineItem } from "../data/timeline";
 import { SectionHeader } from "../components/SectionHeader";
-import { TechBadge } from "../components/TechBadge";
-import { OrgLogo } from "../components/OrgLogo";
 import { useLang } from "../i18n/LangProvider";
 
 export function Timeline() {
@@ -27,7 +24,7 @@ export function Timeline() {
           }
         />
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-16">
           <Column
             title={t(d.timeline.work)}
             icon={<Briefcase className="size-4" />}
@@ -55,33 +52,20 @@ function Column({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-3 mb-6 pb-3 border-b border-line">
-        <span className="size-8 grid place-items-center rounded-full bg-ink text-paper">
+      <div className="flex items-center gap-3 mb-8">
+        <span className="size-7 grid place-items-center rounded-lg bg-ink text-paper">
           {icon}
         </span>
-        <h3 className="font-display font-semibold text-xl tracking-tight">
+        <h3 className="font-display font-semibold text-lg tracking-tight">
           {title}
         </h3>
-        <span className="ml-auto font-mono text-xs text-muted">
-          {String(items.length).padStart(2, "0")}
-        </span>
       </div>
 
-      <ol className="relative space-y-3">
-        {/* Vertical connector line */}
-        <span
-          className="absolute left-6 top-3 bottom-3 w-px bg-line pointer-events-none"
-          aria-hidden
-        />
+      <div className="space-y-0 border-t border-line">
         {items.map((item, i) => (
-          <Card
-            key={item.slug}
-            item={item}
-            index={i}
-            featured={i === 0 /* most recent first in each column */}
-          />
+          <Card key={item.slug} item={item} index={i} />
         ))}
-      </ol>
+      </div>
     </div>
   );
 }
@@ -89,126 +73,91 @@ function Column({
 function Card({
   item,
   index,
-  featured,
 }: {
   item: TimelineItem;
   index: number;
-  featured: boolean;
 }) {
   const { t, tl, d } = useLang();
-  const [hovered, setHovered] = useState(false);
   const isCurrent = item.endYear === "now";
 
   return (
-    <motion.li
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ delay: index * 0.06, duration: 0.5 }}
-      className="relative"
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      transition={{ delay: index * 0.06, duration: 0.45 }}
     >
       <Link
         to={`/parcours/${item.slug}`}
-        className={`relative block group rounded-2xl border bg-cream hover:border-accent/40 hover:shadow-[0_8px_30px_rgba(0,0,0,0.10)] transition-all ${
-          featured ? "border-accent/30 shadow-[0_4px_24px_rgba(0,0,0,0.06)]" : "border-line"
-        }`}
+        className="block group border-b border-line py-6 transition-colors hover:bg-cream/50"
       >
-        {/* Connector dot on the line */}
-        <span
-          className={`absolute left-6 top-1/2 -translate-x-1/2 -translate-y-1/2 size-3 rounded-full border-2 border-paper z-10 ${
-            isCurrent ? "bg-accent" : "bg-ink/30"
-          }`}
-          aria-hidden
-        />
+        {/* Period + current badge */}
+        <div className="flex items-center gap-2 mb-2">
+          <span className="font-mono text-[11px] text-muted tracking-wide">
+            {t(item.period)}
+          </span>
+          {isCurrent && (
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] text-accent">
+              <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+              {t(d.timeline.current)}
+            </span>
+          )}
+        </div>
 
-        <div className={featured ? "p-5" : "p-4"}>
-          <div className="flex items-start gap-4 pl-3">
-            <OrgLogo name={item.org} size={featured ? 52 : 44} />
+        {/* Title */}
+        <h4 className="font-display font-semibold text-base sm:text-lg tracking-tight leading-snug text-ink group-hover:text-accent transition-colors mb-1">
+          {t(item.title)}
+        </h4>
 
-            <div className="flex-1 min-w-0">
-              <div className="flex items-start justify-between gap-3 mb-1.5">
-                <span
-                  className={`font-mono text-[11px] uppercase tracking-[0.15em] ${
-                    isCurrent ? "text-accent" : "text-muted"
-                  }`}
-                >
-                  {t(item.period)}
-                  {isCurrent && (
-                    <span className="ml-2 inline-flex items-center gap-1 normal-case tracking-normal">
-                      <span className="size-1.5 rounded-full bg-accent animate-pulse" />
-                      <span className="text-[10px]">{t(d.timeline.current)}</span>
-                    </span>
-                  )}
-                </span>
-                <ArrowUpRight className="size-4 text-muted group-hover:text-accent group-hover:rotate-45 transition-all shrink-0" />
-              </div>
+        {/* Org + location */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm mb-2">
+          <span className="font-medium text-ink/80">{item.org}</span>
+          {item.location && (
+            <span className="inline-flex items-center gap-1 text-muted text-xs">
+              <MapPin className="size-3" />
+              {t(item.location)}
+            </span>
+          )}
+        </div>
 
-              <h4
-                className={`font-display font-semibold tracking-tight leading-snug group-hover:text-accent transition-colors ${
-                  featured ? "text-xl sm:text-2xl" : "text-lg"
-                }`}
-              >
-                {t(item.title)}
-              </h4>
+        {/* Description */}
+        <p className="text-sm text-ink/65 leading-relaxed mb-3 max-w-lg">
+          {t(item.description)}
+        </p>
 
-              <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
-                <span className="font-medium text-ink/85">{item.org}</span>
-                {item.location && (
-                  <span className="inline-flex items-center gap-1 text-muted text-xs">
-                    <MapPin className="size-3" />
-                    {t(item.location)}
-                  </span>
-                )}
-              </div>
-
-              <p
-                className={`mt-3 text-sm text-ink/70 leading-relaxed ${
-                  featured ? "" : "line-clamp-2"
-                }`}
-              >
-                {t(item.description)}
-              </p>
-
-              {item.tags && item.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {item.tags.slice(0, featured ? 5 : 3).map((tag) => (
-                    <TechBadge key={tag} name={tag} size="sm" variant="ghost" />
-                  ))}
-                </div>
-              )}
-
-              {/* Hover-revealed highlights */}
-              <AnimatePresence initial={false}>
-                {hovered && item.highlights && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <ul className="mt-4 pt-3 border-t border-line space-y-1.5">
-                      {tl(item.highlights)
-                        .slice(0, 3)
-                        .map((h, i) => (
-                          <li
-                            key={i}
-                            className="flex gap-2 text-xs text-ink/75"
-                          >
-                            <span className="font-mono text-accent">→</span>
-                            <span className="line-clamp-1">{h}</span>
-                          </li>
-                        ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+        {/* Tags as plain text */}
+        {item.tags && item.tags.length > 0 && (
+          <div className="flex flex-wrap gap-x-1 mb-2">
+            {item.tags.map((tag, i) => (
+              <span key={tag} className="font-mono text-[11px] text-muted">
+                {tag}{i < item.tags!.length - 1 && <span className="mx-1 text-line-strong">·</span>}
+              </span>
+            ))}
           </div>
+        )}
+
+        {/* Highlights — always visible for first item, collapsed for others */}
+        {item.highlights && index === 0 && (
+          <ul className="mt-3 space-y-1">
+            {tl(item.highlights)
+              .slice(0, 3)
+              .map((h, i) => (
+                <li
+                  key={i}
+                  className="flex gap-2 text-xs text-ink/60"
+                >
+                  <span className="font-mono text-accent shrink-0">→</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+          </ul>
+        )}
+
+        {/* Subtle arrow on hover */}
+        <div className="flex items-center mt-3">
+          <ArrowRight className="size-3.5 text-muted opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-accent transition-all" />
         </div>
       </Link>
-    </motion.li>
+    </motion.div>
   );
 }

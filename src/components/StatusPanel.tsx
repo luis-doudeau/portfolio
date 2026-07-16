@@ -33,7 +33,7 @@ export function StatusPanel() {
       initial={{ opacity: 0, x: 20, scale: 0.98 }}
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ delay: 0.5, duration: 0.8, ease }}
-      className="rounded-3xl border border-line bg-cream p-5 sm:p-6 relative overflow-hidden"
+      className="rounded-3xl border border-line bg-paper shadow-card p-5 sm:p-6 relative overflow-hidden"
     >
       {/* Subtle accent glow */}
       <div

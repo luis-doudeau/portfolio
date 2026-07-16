@@ -14,12 +14,12 @@ export function Hero() {
   return (
     <section id="top" className="relative pt-32 sm:pt-36 pb-20 sm:pb-24 overflow-hidden">
       {/* Decorative background */}
-      <div className="absolute inset-0 grid-bg opacity-[0.5] pointer-events-none [mask-image:radial-gradient(ellipse_at_top,black_20%,transparent_70%)]" />
+      <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none [mask-image:radial-gradient(ellipse_at_top,black_10%,transparent_65%)]" />
       <div
-        className="absolute -top-40 -left-40 size-[480px] rounded-full pointer-events-none"
+        className="absolute -top-52 left-1/2 -translate-x-1/2 size-[720px] rounded-full pointer-events-none opacity-70"
         style={{
           background:
-            "radial-gradient(circle, var(--accent-soft) 0%, transparent 70%)",
+            "radial-gradient(circle, var(--accent-soft) 0%, transparent 68%)",
         }}
       />
 
@@ -43,7 +43,7 @@ export function Hero() {
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left: identity + bio + CTAs */}
           <div className="lg:col-span-7">
-            <h1 className="font-display font-semibold text-5xl sm:text-7xl md:text-[5.5rem] lg:text-[6.5rem] leading-[0.95] tracking-[-0.04em]">
+            <h1 className="font-display font-semibold text-5xl sm:text-7xl md:text-[5.5rem] lg:text-[6.5rem] leading-[0.95] tracking-[-0.03em]">
               <Word delay={0.05}>{profile.firstName}</Word>
               <br />
               <span className="inline-flex items-baseline">
